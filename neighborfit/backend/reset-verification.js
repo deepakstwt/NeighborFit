@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const User = require('./models/User');
 
-const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://deepakprajapatiproplus:deep12345@cluster0.aefkufd.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = process.env.MONGODB_URI || (() => {
+  console.error('MONGODB_URI environment variable is not set!');
+  process.exit(1);
+})();
 
 async function resetVerification() {
   try {

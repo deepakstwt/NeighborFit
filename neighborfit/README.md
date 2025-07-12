@@ -1,193 +1,137 @@
-# 🏠 NeighborFit - Find Your Perfect Neighborhood
+# NeighborFit
 
-A full-stack web application that solves the neighborhood-lifestyle matching problem through systematic research, data analysis, and algorithmic thinking.
+A comprehensive neighborhood discovery and fitness platform that helps users find and connect with their ideal communities.
 
-## 🚀 Project Overview
-
-NeighborFit helps users find their ideal neighborhood by analyzing lifestyle preferences and matching them with real neighborhood data. Built as a professional solution that combines user research, algorithm design, and modern web development.
-
-## ✨ Features Completed (Frontend)
-
-### 🎨 **Professional UI/UX**
-- ✅ Beautiful, responsive design with TailwindCSS
-- ✅ Modern gradient color scheme and animations
-- ✅ Mobile-first responsive layout
-- ✅ Consistent design system with reusable components
-
-### 🔄 **Core User Flow**
-- ✅ **Landing Page** - Professional hero section with features
-- ✅ **Multi-step Onboarding** - Comprehensive preference collection
-- ✅ **Dashboard** - Personalized matches and user stats
-- ✅ **Explore** - Neighborhood discovery with map placeholder
-- ✅ **Neighborhood Details** - In-depth area information
-- ✅ **Profile Management** - Edit preferences and settings
-
-### 🧠 **Smart Features**
-- ✅ **State Management** - React Context with localStorage persistence
-- ✅ **Preference System** - Work style, family, lifestyle, budget
-- ✅ **Match Scoring** - Algorithm-ready preference weighting
-- ✅ **Interactive Forms** - Progressive disclosure and validation
-
-### 🎯 **User Experience**
-- ✅ **Onboarding Flow** - 3-step guided setup
-- ✅ **Progress Tracking** - Visual progress indicators
-- ✅ **Responsive Navigation** - Mobile-friendly menu
-- ✅ **Loading States** - Professional loading animations
-
-## 🛠️ Tech Stack
-
-| Layer | Tools Used |
-|-------|------------|
-| **Frontend** | React.js, TailwindCSS |
-| **Backend** | Node.js with Express (REST APIs) |
-| **Database** | MongoDB Atlas (Free Tier) |
-| **Hosting** | Frontend (Vercel), Backend (Render) |
-| **Maps** | Leaflet.js + OpenStreetMap |
-| **Data Prep** | Python (Pandas, Jupyter) |
-
-## 📁 Project Structure
+## 🏗️ Project Structure
 
 ```
 neighborfit/
-├── frontend/                 # React application
+├── frontend/                 # React frontend application
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── common/      # Reusable UI components
-│   │   │   ├── forms/       # Form components
-│   │   │   ├── maps/        # Map-related components
-│   │   │   └── charts/      # Data visualization
-│   │   ├── pages/           # Route components
-│   │   ├── context/         # React Context for state
+│   │   │   ├── features/    # Feature-specific components
+│   │   │   │   ├── auth/    # Authentication components
+│   │   │   │   ├── dashboard/  # Dashboard components
+│   │   │   │   └── explore/    # Exploration components
+│   │   │   ├── layout/      # Layout components (Navbar, Footer)
+│   │   │   └── ui/          # Reusable UI components
+│   │   ├── context/         # React Context providers
 │   │   ├── hooks/           # Custom React hooks
-│   │   └── utils/           # Helper functions
-├── backend/                  # Node.js API (planned)
-├── data-processing/          # Python scripts (planned)
+│   │   ├── lib/             # Utility functions and services
+│   │   ├── pages/           # Static pages
+│   │   ├── constants/       # Application constants
+│   │   └── types/           # TypeScript types (if applicable)
+│   └── public/
+├── backend/                  # Node.js backend API
+│   ├── src/
+│   │   ├── config/          # Configuration files
+│   │   ├── controllers/     # Route controllers
+│   │   ├── middleware/      # Express middleware
+│   │   ├── models/          # Database models
+│   │   ├── routes/          # API routes
+│   │   ├── services/        # Business logic
+│   │   ├── utils/           # Utility functions
+│   │   └── validators/      # Input validation
+│   └── server.js            # Application entry point
 └── docs/                    # Documentation
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 16+ 
+
+- Node.js (v14 or higher)
+- MongoDB
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/yourusername/neighborfit.git
    cd neighborfit
    ```
 
-2. **Install frontend dependencies**
+2. **Install dependencies**
    ```bash
-   cd frontend
+   # Install backend dependencies
+   cd backend
+   npm install
+   
+   # Install frontend dependencies
+   cd ../frontend
    npm install
    ```
 
-3. **Start development server**
+3. **Environment Setup**
    ```bash
+   # Copy environment template
+   cd backend
+   cp env.example .env
+   
+   # Edit .env with your configuration
+   nano .env
+   ```
+
+4. **Start the application**
+   ```bash
+   # Start backend (from backend directory)
+   npm run dev
+   
+   # Start frontend (from frontend directory)
    npm start
    ```
 
-4. **Open your browser**
-   - Navigate to `http://localhost:3000`
-   - Complete the onboarding flow
-   - Explore the dashboard and features
+## 🛠️ Development
 
-## 🎯 Current Status
+### Backend Development
 
-### ✅ Completed Features
-- [x] Complete frontend application
-- [x] User onboarding and preference system
-- [x] Responsive design and navigation
-- [x] State management with persistence
-- [x] Dashboard with mock neighborhood data
-- [x] Profile management system
+- **Start development server**: `npm run dev`
+- **Run tests**: `npm test`
+- **Database operations**: Check `src/utils/` for database utilities
 
-### 🔄 In Progress
-- [ ] Backend API development
-- [ ] Database schema and data models
-- [ ] Real neighborhood data integration
-- [ ] Matching algorithm implementation
+### Frontend Development
 
-### 📋 Next Steps
-1. **Backend Development**
-   - Set up Express.js server
-   - Design MongoDB schema
-   - Create REST APIs
+- **Start development server**: `npm start`
+- **Build for production**: `npm run build`
+- **Run tests**: `npm test`
 
-2. **Data Integration**
-   - Implement neighborhood data collection
-   - Build matching algorithm
-   - Add real map integration with Leaflet.js
+## 📚 API Documentation
 
-3. **Testing & Deployment**
-   - Unit and integration tests
-   - Deploy to Vercel (frontend) and Render (backend)
+The API documentation is available at `/api/docs` when running the development server.
 
-## 🎨 Design System
+## 🧪 Testing
 
-### Colors
-- **Primary**: Blue gradient (#3b82f6 to #2563eb)
-- **Secondary**: Green gradient (#22c55e to #16a34a)
-- **Background**: Light gray (#f9fafb)
+Run tests for both frontend and backend:
 
-### Components
-- **Buttons**: Primary, Secondary, Ghost variants
-- **Cards**: Consistent padding and shadows
-- **Forms**: TailwindCSS form styling
-- **Loading**: Custom spinner animations
+```bash
+# Backend tests
+cd backend && npm test
 
-## 📱 Pages & Features
+# Frontend tests
+cd frontend && npm test
+```
 
-| Page | Route | Features |
-|------|-------|----------|
-| **Home** | `/` | Hero section, features, testimonials |
-| **Onboarding** | `/onboarding` | 3-step preference collection |
-| **Dashboard** | `/dashboard` | User matches, stats, saved areas |
-| **Explore** | `/explore` | Map view, neighborhood grid |
-| **Detail** | `/neighborhood/:id` | Individual neighborhood info |
-| **Profile** | `/profile` | Edit preferences, account settings |
-| **About** | `/about` | Algorithm explanation, data sources |
+## 🚢 Deployment
 
-## 🔍 Problem-Solving Approach
+### Frontend (Vercel)
+The frontend is configured for Vercel deployment. See `vercel.json` for configuration.
 
-This project demonstrates:
-
-1. **User Research** - Multi-step onboarding to understand user needs
-2. **Algorithm Design** - Preference weighting and scoring system
-3. **Data Architecture** - Scalable state management and persistence
-4. **UX Design** - Progressive disclosure and intuitive navigation
-5. **Systems Thinking** - Modular components and clear separation of concerns
-
-## 📊 Key Metrics
-
-- **User Onboarding**: 3-step process with 92% completion rate target
-- **Performance**: < 2s initial load time
-- **Mobile Responsive**: 100% mobile-friendly design
-- **Accessibility**: WCAG 2.1 AA compliance ready
+### Backend (Production)
+Set up environment variables and deploy to your preferred platform.
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Test thoroughly
+4. Add tests
 5. Submit a pull request
 
 ## 📄 License
 
-This project is part of an educational assignment and is available for learning purposes.
+This project is licensed under the MIT License.
 
----
+## 🆘 Support
 
-**Built with ❤️ for the NeighborFit Project Assignment**
-
-*Finding the perfect neighborhood through data-driven insights and personalized matching.* 
-
-> **Project Attribution:**
-> 
-> यह प्रोजेक्ट दीपक प्रजापति के माध्यम से बनाया गया है।
-> 
-> This project was created by Deepak Prajapati. 
+For support, please open an issue on GitHub or contact the development team. 

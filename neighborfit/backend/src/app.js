@@ -21,6 +21,8 @@ app.use(express.json());
 const neighborhoodRoutes = require('./routes/api/neighborhoods');
 const userRoutes = require('./routes/api/users');
 const preferencesRoutes = require('./routes/api/preferences');
+const chatRoutes = require('./routes/api/chat');
+const recommendationRoutes = require('./routes/api/recommendations');
 
 app.get('/', (req, res) => {
   res.json({
@@ -38,6 +40,8 @@ app.get('/', (req, res) => {
 app.use('/api/neighborhoods', neighborhoodRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/preferences', preferencesRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/recommendations', recommendationRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 4px solid #ccc;
+        }
+        .success {
+            background-color: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-left-color: #17a2b8;
+            color: #0c5460;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 NeighborFit API Debug Test</h1>
+        <p>This page tests the API connection from the browser to help diagnose the "Failed to fetch neighborhoods" error.</p>
+        
+        <div id="results"></div>
+        
+        <button onclick="testAPI()">🚀 Test API Connection</button>
+        <button onclick="testCORS()">🌐 Test CORS</button>
+        <button onclick="clearResults()">🧹 Clear Results</button>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5001/api';
+        const resultsDiv = document.getElementById('results');
+
+        function addResult(type, title, message, data = null) {
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = `
+                <strong>${title}</strong><br>
+                ${message}
+                ${data ? `<pre>${JSON.stringify(data, null, 2)}</pre>` : ''}
+            `;
+            resultsDiv.appendChild(div);
+        }
+
+        function clearResults() {
+            resultsDiv.innerHTML = '';
+        }
+
+        async function testAPI() {
+            addResult('info', '🔄 Testing API Connection', 'Starting API connectivity test...');
+            
+            try {
+                // Test 1: Basic fetch
+                addResult('info', '📡 Test 1: Basic Fetch', 'Testing basic fetch to /api/neighborhoods...');
+                
+                const response = await fetch(`${API_URL}/neighborhoods`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                addResult('success', '✅ Test 1: SUCCESS', 
+                    `Successfully fetched ${data.length} neighborhoods`, 
+                    {
+                        status: response.status,
+                        statusText: response.statusText,
+                        headers: Object.fromEntries(response.headers.entries()),
+                        dataCount: data.length,
+                        firstNeighborhood: data[0]?.name || 'N/A'
+                    }
+                );
+
+                // Test 2: Axios-style request
+                addResult('info', '📡 Test 2: XMLHttpRequest', 'Testing XMLHttpRequest...');
+                
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `${API_URL}/neighborhoods`, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        const xhrData = JSON.parse(xhr.responseText);
+                        addResult('success', '✅ Test 2: SUCCESS', 
+                            `XMLHttpRequest successful - ${xhrData.length} neighborhoods`,
+                            {
+                                status: xhr.status,
+                                statusText: xhr.statusText,
+                                responseHeaders: xhr.getAllResponseHeaders(),
+                                dataCount: xhrData.length
+                            }
+                        );
+                    } else {
+                        addResult('error', '❌ Test 2: FAILED', 
+                            `XMLHttpRequest failed: ${xhr.status} ${xhr.statusText}`
+                        );
+                    }
+                };
+                
+                xhr.onerror = function() {
+                    addResult('error', '❌ Test 2: FAILED', 'XMLHttpRequest network error');
+                };
+                
+                xhr.send();
+
+            } catch (error) {
+                addResult('error', '❌ Test 1: FAILED', `Error: ${error.message}`, {
+                    error: error.toString(),
+                    stack: error.stack
+                });
+            }
+        }
+
+        async function testCORS() {
+            addResult('info', '🌐 Testing CORS', 'Testing CORS preflight request...');
+            
+            try {
+                const response = await fetch(`${API_URL}/neighborhoods`, {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Origin': window.location.origin,
+                        'Access-Control-Request-Method': 'GET',
+                        'Access-Control-Request-Headers': 'Content-Type'
+                    }
+                });
+                
+                addResult('success', '✅ CORS Test: SUCCESS', 
+                    `CORS preflight successful`, 
+                    {
+                        status: response.status,
+                        headers: Object.fromEntries(response.headers.entries())
+                    }
+                );
+                
+            } catch (error) {
+                addResult('error', '❌ CORS Test: FAILED', `CORS Error: ${error.message}`);
+            }
+        }
+
+        // Auto-run test on page load
+        window.onload = function() {
+            addResult('info', '🏁 Page Loaded', `Testing from origin: ${window.location.origin}`);
+            setTimeout(testAPI, 1000);
+        };
+    </script>
+</body>
+</html> 

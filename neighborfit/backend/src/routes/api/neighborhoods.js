@@ -1,7 +1,7 @@
 const express = require('express');
-const Neighborhood = require('../models/Neighborhood');
+const Neighborhood = require('../../models/Neighborhood');
 const router = express.Router();
-const auth = require('../middleware/auth');
+const auth = require('../../middleware/auth');
 
 router.get('/', async (req, res) => {
   try {

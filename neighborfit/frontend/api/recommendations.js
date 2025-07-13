@@ -1,6 +1,4 @@
 // Recommendations API serverless function
-import clientPromise from '../lib/mongodb.js';
-
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -13,95 +11,97 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Connect to MongoDB
-    const client = await clientPromise;
-    const db = client.db('neighborfit');
-    const neighborhoods = db.collection('neighborhoods');
+    // Mock neighborhoods data for recommendations
+    const mockNeighborhoods = [
+      {
+        _id: '1',
+        name: 'Bandra West',
+        city: 'Mumbai',
+        description: 'Trendy neighborhood with great restaurants and nightlife',
+        averageRent: 85000,
+        safetyScore: 8.5,
+        lifestyleScore: 9.0,
+        transportScore: 8.0,
+        amenities: ['Metro Access', 'Restaurants', 'Shopping Malls', 'Beach Access'],
+        imageUrl: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop',
+        personalizedScore: 9.2,
+        recommendationReason: 'Perfect match for your lifestyle preferences'
+      },
+      {
+        _id: '2',
+        name: 'Koramangala',
+        city: 'Bangalore',
+        description: 'IT hub with modern amenities and startup culture',
+        averageRent: 45000,
+        safetyScore: 7.5,
+        lifestyleScore: 8.5,
+        transportScore: 7.0,
+        amenities: ['IT Parks', 'Restaurants', 'Metro Access', 'Cafes'],
+        imageUrl: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop',
+        personalizedScore: 8.7,
+        recommendationReason: 'Great for tech professionals'
+      },
+      {
+        _id: '3',
+        name: 'Connaught Place',
+        city: 'Delhi',
+        description: 'Central business district with heritage architecture',
+        averageRent: 75000,
+        safetyScore: 7.0,
+        lifestyleScore: 8.0,
+        transportScore: 9.0,
+        amenities: ['Metro Access', 'Shopping', 'Restaurants', 'Offices'],
+        imageUrl: 'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?w=600&h=400&fit=crop',
+        personalizedScore: 8.3,
+        recommendationReason: 'Excellent connectivity and business opportunities'
+      }
+    ];
 
     if (req.method === 'GET') {
       const { category } = req.query;
       
       // Handle /recommendations/personalized
       if (req.url?.includes('/personalized')) {
-        const personalizedRecs = await neighborhoods.find({})
-          .sort({ safetyScore: -1, lifestyleScore: -1 })
-          .limit(3)
-          .toArray();
-        
-        // Add personalized scores and reasons
-        const enrichedRecs = personalizedRecs.map((neighborhood, index) => ({
-          ...neighborhood,
-          personalizedScore: 9.2 - (index * 0.5),
-          recommendationReason: 'Perfect match for your lifestyle preferences'
-        }));
-        
-        return res.status(200).json(enrichedRecs);
+        const personalizedRecs = mockNeighborhoods
+          .sort((a, b) => b.personalizedScore - a.personalizedScore)
+          .slice(0, 3);
+        return res.status(200).json(personalizedRecs);
       }
       
       // Handle /recommendations/category/[category]
       if (category) {
-        let categoryRecs = [];
+        let categoryRecs = [...mockNeighborhoods];
         
         switch (category) {
           case 'trending':
-            categoryRecs = await neighborhoods.find({})
-              .sort({ safetyScore: -1, lifestyleScore: -1, transportScore: -1 })
-              .limit(3)
-              .toArray();
-            
-            categoryRecs = categoryRecs.map(n => ({
-              ...n,
-              recommendationReason: `High overall score (${((n.safetyScore + n.lifestyleScore + n.transportScore) / 3).toFixed(1)}/10)`
-            }));
+            categoryRecs = categoryRecs
+              .sort((a, b) => ((b.safetyScore + b.lifestyleScore + b.transportScore) / 3) - 
+                             ((a.safetyScore + a.lifestyleScore + a.transportScore) / 3))
+              .slice(0, 3);
             break;
-            
           case 'budget':
-            categoryRecs = await neighborhoods.find({})
-              .sort({ averageRent: 1 })
-              .limit(3)
-              .toArray();
-            
-            categoryRecs = categoryRecs.map(n => ({
-              ...n,
-              recommendationReason: `Best value: ₹${n.averageRent?.toLocaleString()}/month`
-            }));
+            categoryRecs = categoryRecs
+              .sort((a, b) => a.averageRent - b.averageRent)
+              .slice(0, 3);
             break;
-            
           case 'safety':
-            categoryRecs = await neighborhoods.find({ safetyScore: { $gte: 7 } })
-              .sort({ safetyScore: -1 })
-              .limit(3)
-              .toArray();
-            
-            categoryRecs = categoryRecs.map(n => ({
-              ...n,
-              recommendationReason: `Safety score: ${n.safetyScore}/10`
-            }));
+            categoryRecs = categoryRecs
+              .filter(n => n.safetyScore >= 7)
+              .sort((a, b) => b.safetyScore - a.safetyScore)
+              .slice(0, 3);
             break;
-            
           default:
-            categoryRecs = await neighborhoods.find({})
-              .sort({ safetyScore: -1 })
-              .limit(3)
-              .toArray();
+            categoryRecs = categoryRecs.slice(0, 3);
         }
         
         return res.status(200).json(categoryRecs);
       }
       
       // Default personalized recommendations
-      const defaultRecs = await neighborhoods.find({})
-        .sort({ safetyScore: -1, lifestyleScore: -1 })
-        .limit(3)
-        .toArray();
-      
-      const enrichedDefaultRecs = defaultRecs.map((neighborhood, index) => ({
-        ...neighborhood,
-        personalizedScore: 9.2 - (index * 0.5),
-        recommendationReason: 'Perfect match for your lifestyle preferences'
-      }));
-      
-      return res.status(200).json(enrichedDefaultRecs);
+      const defaultRecs = mockNeighborhoods
+        .sort((a, b) => b.personalizedScore - a.personalizedScore)
+        .slice(0, 3);
+      return res.status(200).json(defaultRecs);
     }
     
     if (req.method === 'POST') {

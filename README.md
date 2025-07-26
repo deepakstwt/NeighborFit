@@ -46,6 +46,8 @@
 
 </div>
 
+> **ℹ️ Note:** Currently, only the Frontend is live. The Backend is fully ready and functional, but not yet deployed live.
+
 <details>
 <summary>📋 <strong>Demo Status & Information</strong></summary>
 

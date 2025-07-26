@@ -21,7 +21,7 @@
 <details>
 <summary>📚 <strong>Table of Contents</strong></summary>
 
-- [🌐 Live Demo](#-live-demo)
+- [🌐 For Now ONLy Frontend Live Demo With Dummy Data](#-live-demo)
 - [✨ What Makes NeighborFit Special?](#-what-makes-neighborfit-special)
 - [🛠️ Tech Stack](#️-tech-stack)
 - [🚀 Quick Start](#-quick-start)

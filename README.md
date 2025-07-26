@@ -21,7 +21,7 @@
 <details>
 <summary>📚 <strong>Table of Contents</strong></summary>
 
-- [🌐 For Now ONLy Frontend Live Demo With Dummy Data](#-live-demo)
+- [🌐Live Demo](#-live-demo)
 - [✨ What Makes NeighborFit Special?](#-what-makes-neighborfit-special)
 - [🛠️ Tech Stack](#️-tech-stack)
 - [🚀 Quick Start](#-quick-start)
@@ -41,7 +41,7 @@
 ## 🌐 Live Demo
 
 <div align="center">
- [For Now Only Frontend is live with Demo Data]
+ 
 ### 🚀 **[Click Here to View Live Demo Only Frontend is live with Demo Data ](https://neighbor-fit-iota.vercel.app/)**
 
 </div>

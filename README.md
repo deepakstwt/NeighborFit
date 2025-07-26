@@ -46,7 +46,7 @@
 
 </div>
 
-> **ℹ️ Note:** Currently, only the Frontend is live. The Backend is fully ready and functional, but not yet deployed live.
+> **ℹ️ Note:** Currently, only the Frontend is live. The Backend is fully ready and functional, but not yet deployed live. I can demonstrate the complete working website with both frontend and backend on my local system if needed.
 
 <details>
 <summary>📋 <strong>Demo Status & Information</strong></summary>

@@ -42,7 +42,7 @@
 
 <div align="center">
  
-### 🚀 **[Click Here to View Live Demo Only Frontend is live with Demo Data ](https://neighbor-fit-iota.vercel.app/)**
+### 🚀 **[Click here to View live](https://neighbor-fit-iota.vercel.app/)**
 
 </div>
 
